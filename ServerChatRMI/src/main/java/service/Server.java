@@ -4,29 +4,36 @@ import model.Message;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class Server extends UnicastRemoteObject implements ServerInterface {
 
-    private volatile List<ClientInterface> clients = new ArrayList<ClientInterface>();
+    private volatile Map<String, ClientInterface> clients = new HashMap<>();
 
     public Server() throws RemoteException {
         super();
 
-        new Notify().start();
     }
 
     @Override
-    public void registerClient(ClientInterface client) throws RemoteException {
+    public void registerClient(ClientInterface client, String telefone) throws RemoteException {
 
-        clients.add(client);
+        clients.put(telefone, client);
         System.out.println("Novo cliente registrado com sucesso! Total: "+clients.size());
+        System.out.println("Cliente: " + telefone);
+        client.printMessage(new Message(telefone + " have connected successfully!"), true);
+
+    }
+
+    @Override
+    public void forwardMessage(Message message, String telefone) throws RemoteException {
+        clients.get(telefone).printMessage(message, false);
     }
 
 
-    private class Notify extends Thread{
+/*    private class Notify extends Thread{
 
         public void run() {
 
@@ -60,7 +67,7 @@ public class Server extends UnicastRemoteObject implements ServerInterface {
 
         }
     }
-
+*/
 
 }
 
