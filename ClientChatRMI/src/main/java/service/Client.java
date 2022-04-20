@@ -8,12 +8,14 @@ import java.util.Scanner;
 
 
 public class Client extends UnicastRemoteObject implements ClientInterface {
-    private ServerInterface server;
+    private final ServerInterface server;
+    private final String telefone;
 
-    public Client(ServerInterface server) throws RemoteException {
+    public Client(ServerInterface server, String telefone) throws RemoteException {
         super();
         // TODO Auto-generated constructor stub
         this.server = server;
+        this.telefone = telefone;
     }
 
     @Override
@@ -29,9 +31,9 @@ public class Client extends UnicastRemoteObject implements ClientInterface {
         public void run() {
             for (; ; ) {
                 System.out.println("Digite o telefone ao qual quer enviar a mensagem:");
-                String telefone = leitor.nextLine();
+                String telefoneDestinatario = leitor.nextLine();
                 System.out.println("Digite a mensagem:");
-                Message message = new Message(leitor.nextLine());
+                Message message = new Message(leitor.nextLine(), telefone, telefoneDestinatario);
                 try {
                     server.forwardMessage(message, telefone);
                 } catch (RemoteException e) {

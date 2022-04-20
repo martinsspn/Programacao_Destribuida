@@ -1,6 +1,7 @@
 package service;
 
 import model.Message;
+import repository.MessageRepository;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
@@ -10,7 +11,8 @@ import java.util.Map;
 
 public class Server extends UnicastRemoteObject implements ServerInterface {
 
-    private volatile Map<String, ClientInterface> clients = new HashMap<>();
+    private final Map<String, ClientInterface> clients = new HashMap<>();
+    private final MessageRepository repository = new MessageRepository();
 
     public Server() throws RemoteException {
         super();
@@ -18,56 +20,20 @@ public class Server extends UnicastRemoteObject implements ServerInterface {
     }
 
     @Override
-    public void registerClient(ClientInterface client, String telefone) throws RemoteException {
-
-        clients.put(telefone, client);
+    public void registerClient(ClientInterface client, String telefoneRemetente, String telefoneDestinatario) throws RemoteException {
+        clients.put(telefoneRemetente, client);
         System.out.println("Novo cliente registrado com sucesso! Total: "+clients.size());
-        System.out.println("Cliente: " + telefone);
-        client.printMessage(new Message(telefone + " have connected successfully!"), true);
-
+        System.out.println("Cliente: " + telefoneRemetente);
+        Message message = new Message(telefoneRemetente + " have connected successfully!", telefoneRemetente, telefoneDestinatario);
+        client.printMessage(message, true);
+        repository.saveMessage(message);
     }
 
     @Override
-    public void forwardMessage(Message message, String telefone) throws RemoteException {
-        clients.get(telefone).printMessage(message, false);
+    public void forwardMessage(Message message, String telefoneDestinatario) throws RemoteException {
+        clients.get(telefoneDestinatario).printMessage(message, false);
+        repository.saveMessage(message);
     }
-
-
-/*    private class Notify extends Thread{
-
-        public void run() {
-
-            for(;;) {
-
-                if(clients.size() > 0) {
-
-                    System.out.println("Notificando clientes");
-
-                    int i = 0;
-                    for (ClientInterface helloClientInterface : clients) {
-
-                        try {
-                            helloClientInterface.printMessage(new Message("Hello client " + (i++)));
-                        } catch (RemoteException e) {
-                            e.printStackTrace();
-                        }
-                    }
-
-
-                    try {
-                        Thread.sleep(15 * 1000);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-
-
-                }
-
-            }
-
-        }
-    }
-*/
 
 }
 
