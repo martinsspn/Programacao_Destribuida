@@ -36,6 +36,8 @@ public class Client extends UnicastRemoteObject implements ClientInterface {
                     server.forwardMessage(message, telefone);
                 } catch (RemoteException e) {
                     e.printStackTrace();
+                }catch (NullPointerException e){
+                    System.out.println("Telefone de destino não está cadastrado!!!");
                 }
             }
         }

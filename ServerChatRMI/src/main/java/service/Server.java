@@ -29,7 +29,10 @@ public class Server extends UnicastRemoteObject implements ServerInterface {
 
     @Override
     public void forwardMessage(Message message, String telefone) throws RemoteException {
-        clients.get(telefone).printMessage(message, false);
+        String[] telefones = telefone.split(" ");
+        for(String telefoneDestino : telefones){
+            clients.get(telefoneDestino).printMessage(message, false);
+        }
     }
 
 

@@ -23,7 +23,6 @@ public class Main {
         String telefone = leitor.nextLine();
         server.registerClient(client, telefone);
 
-
     }
 
 }
