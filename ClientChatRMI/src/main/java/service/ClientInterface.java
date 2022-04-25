@@ -7,6 +7,6 @@ import java.rmi.RemoteException;
 
 public interface ClientInterface extends Remote {
 
-    void printMessage(Message message, boolean is_connect_response) throws RemoteException;
+    public void printMessage(Message message, boolean is_connect_response) throws RemoteException;
 
 }
