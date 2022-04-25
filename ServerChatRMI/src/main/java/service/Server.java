@@ -23,7 +23,7 @@ public class Server extends UnicastRemoteObject implements ServerInterface {
         clients.put(telefone, client);
         System.out.println("Novo cliente registrado com sucesso! Total: "+clients.size());
         System.out.println("Cliente: " + telefone);
-        client.printMessage(new Message(telefone + " have connected successfully!"), true);
+        client.printMessage(new Message(telefone + " have connected successfully!", "0"), true);
 
     }
 

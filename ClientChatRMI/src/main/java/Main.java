@@ -19,10 +19,11 @@ public class Main {
 
         ClientInterface client = new Client(server);
         System.out.println("===== ||  || ====== ======");
-        System.out.println("|     ||==|| ||==||   ||  ");
+        System.out.println("||    ||==|| ||==||   ||  ");
         System.out.println("===== ||  || ||  ||   ||  ");
         Scanner leitor = new Scanner(System.in);
-        System.out.println("╠══=====seu Telefone=====══╣");
+        System.out.println("╠══===== Digite seu Telefone =====══╣");
+        System.out.print("> ");
         String telefone = leitor.nextLine();
         server.registerClient(client, telefone);
 
