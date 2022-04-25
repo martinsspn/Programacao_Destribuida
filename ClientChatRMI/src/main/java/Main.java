@@ -18,8 +18,11 @@ public class Main {
                 Naming.lookup("rmi://127.0.0.1:1098/ServerCallbak");
 
         ClientInterface client = new Client(server);
+        System.out.println("===== ||  || ====== ======");
+        System.out.println("|     ||==|| ||==||   ||  ");
+        System.out.println("===== ||  || ||  ||   ||  ");
         Scanner leitor = new Scanner(System.in);
-        System.out.println("Digite seu telefone:");
+        System.out.println("╠══=====seu Telefone=====══╣");
         String telefone = leitor.nextLine();
         server.registerClient(client, telefone);
 

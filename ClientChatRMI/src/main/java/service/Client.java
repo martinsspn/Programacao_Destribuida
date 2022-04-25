@@ -28,6 +28,8 @@ public class Client extends UnicastRemoteObject implements ClientInterface {
         Scanner leitor = new Scanner(System.in);
         public void run() {
             for (; ; ) {
+
+                System.out.println("********* Novo chat *********");
                 System.out.println("Digite o telefone ao qual quer enviar a mensagem:");
                 String telefone = leitor.nextLine();
                 System.out.println("Digite a mensagem:");
