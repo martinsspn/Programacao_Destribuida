@@ -1,4 +1,5 @@
 package service;
+import model.EncriptaDecripta;
 
 import model.Message;
 
@@ -11,6 +12,7 @@ public class Client extends UnicastRemoteObject implements ClientInterface {
     private final ServerInterface server;
     private int status;
     private final String telefoneRemetente;
+    private EncriptaDecripta encriptaDecripta;
 
     public Client(ServerInterface server, String telefoneRemetente) throws RemoteException {
         super();
@@ -18,13 +20,18 @@ public class Client extends UnicastRemoteObject implements ClientInterface {
         this.server = server;
         this.status = 1;
         this.telefoneRemetente = telefoneRemetente;
+        this.encriptaDecripta = new EncriptaDecripta();
     }
 
     @Override
     public void printMessage(Message message, boolean is_connect_response) throws RemoteException {
-        System.out.println(message);
         if(is_connect_response){
+            System.out.println(message);
             new sendMessage().start();
+        }else {
+            String messageDecrypted = encriptaDecripta.descriptografiaBase64Decode(message.getMessage());
+            message.setMessage(messageDecrypted);
+            System.out.println(message);
         }
     }
 
@@ -46,7 +53,10 @@ public class Client extends UnicastRemoteObject implements ClientInterface {
                     }finally {
                         System.out.println("Digite a mensagem:");
                         System.out.print("> ");
-                        Message message = new Message(leitor.nextLine(), telefoneRemetente, telefone);
+                        String mensagem = leitor.nextLine();
+                        Message message = null;
+                        String mensagemEncriptada = encriptaDecripta.criptografiaBase64Encoder(mensagem);
+                        message = new Message(mensagemEncriptada, telefoneRemetente, telefone);
                         status = 2;
                         try {
                             server.forwardMessage(message);
@@ -89,11 +99,11 @@ public class Client extends UnicastRemoteObject implements ClientInterface {
 
         private void createNextMessage(String telefone) {
             System.out.print("> ");
-            Message message = new Message(leitor.nextLine(), telefoneRemetente, telefone);
-            if (message.getMessage().equals("exit")){
+            String mensagem = leitor.nextLine();
+            Message message = new Message(encriptaDecripta.criptografiaBase64Encoder(mensagem), telefoneRemetente, telefone);
+            if (mensagem.equals("exit")){
                 status = 1;
                 telefoneDestino = null;
-
             }
             else{
                 try {
@@ -105,5 +115,4 @@ public class Client extends UnicastRemoteObject implements ClientInterface {
             }
         }
     }
-
 }
