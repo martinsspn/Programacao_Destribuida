@@ -20,11 +20,7 @@ public class MessageRepository {
     private final MongoCollection<Document> telefones;
 
     public MessageRepository() {
-        ConnectionString connectionString = new ConnectionString("mongodb+srv://martinsspn:baby2765@cluster0.o0zyk.mongodb.net/Chat?retryWrites=true&w=majority");
-        MongoClientSettings settings = MongoClientSettings.builder()
-                .applyConnectionString(connectionString)
-                .build();
-        MongoClient mongoClient = MongoClients.create(settings);
+        MongoClient mongoClient = new MongoClient();
         MongoDatabase database = mongoClient.getDatabase("Chat");
         this.messages = database.getCollection("messages");
         this.telefones = database.getCollection("telefones");
