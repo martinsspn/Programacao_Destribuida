@@ -6,5 +6,6 @@ import br.ufrn.chatweb.repository.generic.GenericRepository;
 import java.util.Optional;
 
 public interface UsuarioRepository extends GenericRepository<Usuario> {
+    public Optional<Usuario> findByNomeAndTelefone(String nome, String telefone);
     public Optional<Usuario> findByTelefone(String telefone);
 }

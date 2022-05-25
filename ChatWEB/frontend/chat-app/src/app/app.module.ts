@@ -5,9 +5,9 @@ import { FormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { LoginComponent } from './login/login.component';
-import { UserInterfaceComponent } from './user-interface/user-interface.component';
+import { LoginComponent } from './login/login/login.component';
 import { MessageService } from './message.service';
+import { UserInterfaceComponent } from './user-interface/user-interface/user-interface.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +19,7 @@ import { MessageService } from './message.service';
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    FormsModule
+    FormsModule,
   ],
   providers: [MessageService, HttpClientModule],
   bootstrap: [AppComponent]

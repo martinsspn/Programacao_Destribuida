@@ -13,6 +13,10 @@ public class UsuarioService extends AbstractService<Usuario, UsuarioRepository> 
         super(repository);
     }
 
+    public Optional<Usuario> findByNomeAndTelefone(String nome, String telefone){
+        return repository.findByNomeAndTelefone(nome, telefone);
+    }
+
     public Optional<Usuario> findByTelefone(String telefone){
         return repository.findByTelefone(telefone);
     }

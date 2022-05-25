@@ -10,6 +10,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/usuario")
+@CrossOrigin(origins = "http://localhost:4200", exposedHeaders = "X-Total-Count")
 public class UsuarioController {
     private final UsuarioService service;
 
@@ -22,9 +23,15 @@ public class UsuarioController {
         return ResponseEntity.ok(service.findAll());
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Usuario> getById(@PathVariable Long id){
-        Optional<Usuario> usuario = service.findById(id);
+    @GetMapping("/{nome}/{telefone}")
+    public ResponseEntity<Usuario> getByNomeAndTelefone(@PathVariable String nome, @PathVariable String telefone){
+        Optional<Usuario> usuario = service.findByNomeAndTelefone(nome, telefone);
+        return usuario.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    @GetMapping("/{telefone}")
+    public ResponseEntity<Usuario> getByTelefone(@PathVariable String telefone){
+        Optional<Usuario> usuario = service.findByTelefone(telefone);
         return usuario.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 

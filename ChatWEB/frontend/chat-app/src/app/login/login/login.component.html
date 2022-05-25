@@ -1,0 +1,22 @@
+<div class="container">
+    <form>
+        <h1>Login</h1>
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label">Nome:</label>    
+            <br>
+            <div class="col-sm-10 ">
+                <input [(ngModel)]="usuario.nome" required name="username" class="form-control">
+            </div>     
+        </div>
+        <div class="form-group row">
+
+            <label class="col-sm-2 col-form-label">Telefone:</label>    
+            <br>
+            <div class="col-sm-10">
+                <input [(ngModel)]="usuario.telefone" required name="destinatario" class="form-control">
+            </div>                 
+        </div>
+        <button class="btn btn-secundary mr-2 col-sm-2 btn float-end" (click)="registrarSe()" >Registrar-se</button>
+        <button class="btn btn-primary mr-2 col-sm-2 btn float-end" (click)="logIn()">Entrar</button>
+    </form>
+</div>
