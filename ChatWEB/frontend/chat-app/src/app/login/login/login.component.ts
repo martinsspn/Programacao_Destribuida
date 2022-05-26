@@ -10,7 +10,8 @@ import { UsuarioService } from 'src/app/usuario.service';
 })
 export class LoginComponent implements OnInit {
   usuario : UsuarioModel = new UsuarioModel();
-  static usuarioS: UsuarioModel;  
+  static usuarioRemetente: UsuarioModel;  
+  static usuarioDestinatario: UsuarioModel;  
   constructor(private usuarioService: UsuarioService, private router : Router, private activatedRoute : ActivatedRoute) { }
   logged : boolean = false;
   ngOnInit(): void {
@@ -19,7 +20,7 @@ export class LoginComponent implements OnInit {
   logIn(){
     this.usuarioService.getUsuario(this.usuario).subscribe(u =>{
       this.usuario = u;
-      LoginComponent.usuarioS = u;
+      LoginComponent.usuarioRemetente = u;
       this.entrar();
     }, err => {
       console.log("Usuário não encontrado. Talvez você queira registrar-se?", err);
@@ -29,7 +30,7 @@ export class LoginComponent implements OnInit {
   registrarSe(){
     this.usuarioService.insertUsuario(this.usuario).subscribe(u => {
       this.usuario = u;
-      LoginComponent.usuarioS = u;
+      LoginComponent.usuarioRemetente = u;
       this.entrar();
     }, err => {
       console.log("Usuário não foi cadastrado!", err);

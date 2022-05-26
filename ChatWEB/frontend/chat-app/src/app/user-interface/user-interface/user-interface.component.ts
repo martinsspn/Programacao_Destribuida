@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { LoginComponent } from 'src/app/login/login/login.component';
-import { MessageModel } from 'src/app/message.model';
-import { MessageService } from 'src/app/message.service';
+import { UsuarioService } from 'src/app/usuario.service';
 import { UsuarioModel } from 'src/app/usuario.model';
+import { Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
+import { LoginComponent } from 'src/app/login/login/login.component';
 
 @Component({
   selector: 'app-user-interface',
@@ -11,52 +12,24 @@ import { UsuarioModel } from 'src/app/usuario.model';
 })
 export class UserInterfaceComponent implements OnInit {
 
-  message: MessageModel = new MessageModel();
-  messages: Array<any> = new Array();
-  usuario: UsuarioModel = new UsuarioModel();
-
-  constructor(private messageService: MessageService) { }
+  usuarios: Array<any> = new Array();
+  usuario : UsuarioModel = LoginComponent.usuarioRemetente;
+  constructor(private usuarioService: UsuarioService, private router : Router, private activatedRoute : ActivatedRoute) { }
 
   ngOnInit(): void {
-    this.getMessages();
+    this.getUsuarios();
   }
 
-  getMessages(){
-    this.messageService.getMessages().subscribe(messages => {
-      this.messages = messages;   
+  getUsuarios(){
+    this.usuarioService.getUsuarios().subscribe(usuarios => {
+      this.usuarios = usuarios;
     }, err => {
-      console.log("Erro ao listar as mensagens", err); 
+      console.log("Erro ao listar usuários", err);
     })
   }
 
-  sendMessage(){
-    this.message.telefoneRemetente = LoginComponent.usuarioS.telefone;
-    this.messageService.sendMessage(this.message).subscribe(message => {
-      console.log(message);
-      this.getMessages();
-    }, err => {
-      console.log("Erro ao enviar mensagem", err); 
-    });
-  }
-
-  set telefoneDestinatario(value : string){
-    this.message.telefoneDestinatario = value;
-    if(this.telefoneDestinatario !== ""){
-      this.messageService.getMessagesFromChat(this.message).subscribe(messages => {
-        this.messages = messages;   
-      }, err => {
-        console.log("Erro ao listar as mensagens", err);
-      });
-    }else{
-      this.messageService.getMessages().subscribe(messages => {
-        this.messages = messages;
-      }, err => {
-        console.log("Erro ao listar as mensagens", err); 
-      });
-    }
-  }
-
-  get telefoneDestinatario(){
-    return this.message.telefoneDestinatario; 
+  goToChat(usuario : UsuarioModel){
+    LoginComponent.usuarioDestinatario = usuario;
+    this.router.navigate(['message'], {relativeTo: this.activatedRoute})
   }
 }

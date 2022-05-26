@@ -7,23 +7,25 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 
 public interface MessageRepository extends GenericRepository<Message> {
-    @Query(value = "select * from " +
-            "(select m.id, m.usuario_remetente_id, m.usuario_destinatario_id, m.message, m.date " +
+    @Query(value = "select * from message m " +
+            "where m.id in (select m.id " +
+            "from message m, usuario u, (select m.usuario_remetente_id, m.usuario_destinatario_id " +
             "from message m, usuario u " +
-            "where (?1 in (select u.telefone " +
-            "              from usuario u, message m " +
-            "              where u.id = m.usuario_remetente_id) " +
-            "   and ?2 in (select u.telefone " +
-            "              from usuario u, message m " +
-            "              where u.id = m.usuario_destinatario_id)) " +
-            "   or (?2 in (select u.telefone " +
-            "              from usuario u, message m " +
-            "              where u.id = m.usuario_remetente_id) " +
-            "   and ?1 in (select u.telefone " +
-            "              from usuario u, message m " +
-            "              where u.id = m.usuario_destinatario_id))) as s " +
-            "group by s.id, s.usuario_remetente_id, s.usuario_destinatario_id, s.message, s.date " +
-            "order by s.date ", nativeQuery = true)
+            "where m.usuario_remetente_id = u.id " +
+            "and u.telefone like ?1) s " +
+            "where m.usuario_destinatario_id = s.usuario_destinatario_id " +
+            "and u.id = s.usuario_destinatario_id " +
+            "and u.telefone like ?2 " +
+            "group by m.id, u.id, s.usuario_remetente_id, s.usuario_destinatario_id) " +
+            "or m.id in (select m.id " +
+            "from message m, usuario u, (select m.usuario_remetente_id, m.usuario_destinatario_id " +
+            "from message m, usuario u " +
+            "where m.usuario_remetente_id = u.id " +
+            "and u.telefone like ?2) s " +
+            "where m.usuario_destinatario_id = s.usuario_destinatario_id " +
+            "and u.id = s.usuario_destinatario_id " +
+            "and u.telefone like ?1 " +
+            "group by m.id, u.id, s.usuario_remetente_id, s.usuario_destinatario_id) ", nativeQuery = true)
     List<Message> findByTelefones(String remetente, String destinatario);
 }
 

@@ -1,5 +1,7 @@
+import { UsuarioModel } from "./usuario.model";
+
 export class MessageModel{
-    telefoneRemetente!: string;
-    telefoneDestinatario!: string;
+    usuarioRemetente!: UsuarioModel;
+    usuarioDestinatario!: UsuarioModel;
     message!: string;
 }

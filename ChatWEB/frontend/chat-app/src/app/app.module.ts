@@ -8,12 +8,14 @@ import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login/login.component';
 import { MessageService } from './message.service';
 import { UserInterfaceComponent } from './user-interface/user-interface/user-interface.component';
+import { ChatComponent } from './chat/chat/chat.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
-    UserInterfaceComponent
+    UserInterfaceComponent,
+    ChatComponent
   ],
   imports: [
     BrowserModule,

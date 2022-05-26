@@ -7,6 +7,10 @@ import { UsuarioModel } from './usuario.model';
   providedIn: 'root'
 })
 export class UsuarioService {
+  
+  getUsuarios() : Observable<any> {
+    return this.http.get("http://localhost:8080/usuario");
+  }
 
   constructor(private http: HttpClient) { }
 

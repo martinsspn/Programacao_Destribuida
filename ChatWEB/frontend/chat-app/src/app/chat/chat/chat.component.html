@@ -1,0 +1,41 @@
+
+<div class="container">
+    <h1>Bem vindo ao Chat {{message.usuarioRemetente.nome}}!</h1>
+    <h3>Enviar mensagem</h3>
+    
+    <form>
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label">insira mensagem:</label>    
+            <br>
+            <div class="col-sm-10">
+                <input [(ngModel)]="message.message" name="message" class="form-control">
+            </div>                 
+        </div>
+        <button class="btn btn-primary mr-2 col-sm-1 btn float-end" (click)="sendMessage()">Enviar</button>        
+    
+    </form>
+    <br>
+    <div style="margin-top: 50px;">
+        <button class="btn btn-secondary mr-2 col-sm-1 float-end" (click)="voltar()">Voltar</button>
+        <button class="btn btn-primary float-end" (click)="updateMessages()">Atualizar Mensagens</button>
+        <h2>Mensagens:</h2>
+        <table  class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Enviado por</th>
+                    <th>para</th>
+                    <th>Mensagem</th>
+                    <th>Data e hora</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let msg of messages">
+                    <td>{{"["+msg.telefoneRemetente.telefone + " / " + msg.telefoneRemetente.nome + "]"}}</td>
+                    <td>{{"["+msg.telefoneDestinatario.telefone + " / " + msg.telefoneDestinatario.nome + "]"}}</td>
+                    <td>{{msg.message}}</td>
+                    <td>{{msg.date}}</td>
+                </tr>    
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -9,6 +9,10 @@ const routes: Routes = [{
 {
   path:'chat',
   loadChildren: () => import('./user-interface/user-interface.module').then(m=> m.UserInterfaceModule)
+},
+{
+  path:'chat/message',
+  loadChildren: () => import('./chat/chat-routing.module').then(m => m.ChatRoutingModule)
 }];
 
 @NgModule({
