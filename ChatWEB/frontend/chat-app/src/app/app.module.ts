@@ -9,6 +9,7 @@ import { LoginComponent } from './login/login/login.component';
 import { MessageService } from './message.service';
 import { UserInterfaceComponent } from './user-interface/user-interface/user-interface.component';
 import { ChatComponent } from './chat/chat/chat.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -22,6 +23,7 @@ import { ChatComponent } from './chat/chat/chat.component';
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
+    BrowserAnimationsModule,
   ],
   providers: [MessageService, HttpClientModule],
   bootstrap: [AppComponent]
