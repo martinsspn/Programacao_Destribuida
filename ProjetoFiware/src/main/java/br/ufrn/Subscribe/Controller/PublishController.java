@@ -8,17 +8,28 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.*;
 
+import static java.util.Objects.isNull;
+
 public class PublishController {
     public static String createContext() {
         Scanner leitor = new Scanner(System.in);
         System.out.println("informe o id do deposito de lixo:");
-        String idDeposito = leitor.next();
-        System.out.println("Qual o nível de lotação do deposito?");
-        System.out.println("1 - baixo");
-        System.out.println("2 - medio");
-        System.out.println("3 - alto");
-        System.out.print("> ");
-        String nivelLotacao = leitor.next();
+        String idDeposito = leitor.nextLine();
+        String nivelLotacao = null;
+        do{
+            System.out.println("Qual o nível de lotação do deposito?");
+            System.out.println("1 - baixo");
+            System.out.println("2 - medio");
+            System.out.println("3 - alto");
+            System.out.print("> ");
+            int op = leitor.nextInt();
+            switch (op){
+                case 1 -> nivelLotacao = "baixo";
+                case 2 -> nivelLotacao = "medio";
+                case 3 -> nivelLotacao = "alto";
+                default -> System.out.println("opção inválida");
+            }
+        }while (isNull(nivelLotacao));
         System.out.println("Informe as coordenadas do deposito:");
         System.out.print("   latitude:");
         Float latitude = leitor.nextFloat();
@@ -36,12 +47,12 @@ public class PublishController {
         attributes.add(firstAttribute);
         JSONObject secondAttribute = new JSONObject();
         secondAttribute.put("name", "latitude");
-        secondAttribute.put("type", "Float");
+        secondAttribute.put("type", "float");
         secondAttribute.put("value", latitude);
         attributes.add(secondAttribute);
         JSONObject thirdAttribute = new JSONObject();
         thirdAttribute.put("name", "longitude");
-        thirdAttribute.put("type", "Float");
+        thirdAttribute.put("type", "float");
         thirdAttribute.put("value", longitude);
         attributes.add(thirdAttribute);
         entity.put("attributes", attributes);
