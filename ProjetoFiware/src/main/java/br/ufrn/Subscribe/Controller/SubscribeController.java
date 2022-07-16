@@ -32,7 +32,7 @@ public class SubscribeController {
 		List<String> attributes = new ArrayList<>();
 		attributes.add("Nivel_qtd_lixo");
 		subscription.put("attributes", attributes);
-		subscription.put("reference", "http://localhost:8080/Subscribe/subscribe");
+		subscription.put("reference", "http://172.17.0.1:8080/Subscribe/subscribe");
 		subscription.put("duration", "P1M");
 		List<JSONObject> notifyConditions = new ArrayList<>();
 		JSONObject type = new JSONObject();
