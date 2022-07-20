@@ -60,7 +60,7 @@ public class PublishController {
     }
 
     public static String publishContext(JSONObject entity) {
-        String url = "http://localhost:1026/v1/contextEntities";
+        String url = "http://192.168.0.24:1026/v1/contextEntities";
 
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
